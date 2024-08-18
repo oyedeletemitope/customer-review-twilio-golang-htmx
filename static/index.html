@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Review Form</title>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <form
+        hx-post="/submit-review"
+        hx-trigger="submit"
+        hx-swap="outerHTML"
+        hx-target="this"
+      >
+        <div class="form-group">
+          <label for="review-name">Name:</label>
+          <input type="text" id="review-name" name="review_name" required />
+        </div>
+
+        <div class="form-group">
+          <label>Rating:</label>
+          <div class="star-rating" id="star-rating">
+            <input type="hidden" name="rating" id="rating" value="0" />
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="review-description">Description:</label>
+          <textarea
+            id="review-description"
+            name="review_description"
+            rows="4"
+            required
+          ></textarea>
+        </div>
+
+        <button type="submit">Submit Review</button>
+      </form>
+    </div>
+
+    <script>
+      const stars = document.querySelectorAll(".star-rating .star");
+      let ratingInput = document.getElementById("rating");
+      let rating = 0;
+
+      stars.forEach((star, idx) => {
+        star.addEventListener("click", () => {
+          rating = idx + 1;
+          ratingInput.value = rating;
+          resetStars();
+          highlightStars(idx);
+        });
+
+        star.addEventListener("mouseover", () => {
+          resetStars();
+          highlightStars(idx);
+        });
+
+        star.addEventListener("mouseout", () => {
+          resetStars();
+          if (rating !== 0) {
+            highlightStars(rating - 1);
+          }
+        });
+      });
+
+      function resetStars() {
+        stars.forEach((star) => {
+          star.classList.remove("active");
+        });
+      }
+
+      function highlightStars(index) {
+        for (let i = 0; i <= index; i++) {
+          stars[i].classList.add("active");
+        }
+      }
+    </script>
+  </body>
+</html>

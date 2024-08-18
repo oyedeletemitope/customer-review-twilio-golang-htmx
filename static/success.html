@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feedback Submitted</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 id="feedback-message"></h1>
+    </div>
+
+    <script>
+      // Get the sentiment from the URL query parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const sentiment = urlParams.get("sentiment");
+
+      // Determine the feedback message based on sentiment
+      let message;
+      if (sentiment === "Positive") {
+        message = "Thank you for the positive feedback!";
+      } else if (sentiment === "Negative") {
+        message =
+          "We are sorry to hear about your experience. We will work on improving it!";
+      } else {
+        message = "Thank you for the feedback!";
+      }
+
+      // Display the feedback message
+      document.getElementById("feedback-message").innerText = message;
+    </script>
+  </body>
+</html>
